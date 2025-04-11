@@ -1,5 +1,5 @@
-from qtpy.QtCore import Signal, QTextStream, Qt
-from qtpy.QtNetwork import QLocalSocket, QLocalServer
+from qtpy.QtCore import Qt, QTextStream, Signal
+from qtpy.QtNetwork import QLocalServer, QLocalSocket
 from qtpy.QtWidgets import QApplication
 
 """
@@ -9,12 +9,10 @@ https://stackoverflow.com/a/12712362/21247765.
 
 
 class QtSingleApplication(QApplication):
-
     messageReceived = Signal(str)
 
     def __init__(self, id, *argv):
-
-        super(QtSingleApplication, self).__init__(*argv)
+        super().__init__(*argv)
         self._id = id
         self._activationWindow = None
         self._activateOnMessage = False
@@ -27,7 +25,7 @@ class QtSingleApplication(QApplication):
         if self._isRunning:
             # Yes, there is.
             self._outStream = QTextStream(self._outSocket)
-            self._outStream.setCodec('UTF-8')
+            self._outStream.setCodec("UTF-8")
         else:
             # No, there isn't.
             self._outSocket = None
@@ -55,14 +53,15 @@ class QtSingleApplication(QApplication):
         if not self._activationWindow:
             return
         self._activationWindow.setWindowState(
-            self._activationWindow.windowState() & ~Qt.WindowMinimized)
+            self._activationWindow.windowState() & ~Qt.WindowMinimized
+        )
         self._activationWindow.raise_()
         self._activationWindow.activateWindow()
 
     def sendMessage(self, msg):
         if not self._outStream:
             return False
-        self._outStream << msg << '\n'
+        self._outStream << msg << "\n"
         self._outStream.flush()
         return self._outSocket.waitForBytesWritten()
 
@@ -73,7 +72,7 @@ class QtSingleApplication(QApplication):
         if not self._inSocket:
             return
         self._inStream = QTextStream(self._inSocket)
-        self._inStream.setCodec('UTF-8')
+        self._inStream.setCodec("UTF-8")
         self._inSocket.readyRead.connect(self._onReadyRead)
         if self._activateOnMessage:
             self.activateWindow()

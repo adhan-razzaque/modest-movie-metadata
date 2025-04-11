@@ -55,3 +55,6 @@ extend-select = [
   "E501",
   "UP",   # pyupgrade
 ]
+
+[dependency-groups]
+dev = ["pre-commit>=4.2.0", "ruff>=0.11.5"]
