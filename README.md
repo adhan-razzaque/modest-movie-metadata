@@ -39,6 +39,11 @@ packages and run a Python script. If somebody would like to volunteer to
 produce a macOS installer, I would be delighted (I don’t own a Mac myself). 
 If there is demand, I can create a Linux installer.  
 
+For developers, you can install using uv. If you don't already have uv
+installed, use [astral's uv installation
+guide](https://docs.astral.sh/uv/getting-started/installation/). Once uv is installed, simply run `ModestMovieMetadata.ps1` or run `uv sync` to
+set up the project.
+
 ## Licence
 GPL 3.0 or later.
 
